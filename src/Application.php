@@ -1,6 +1,8 @@
 <?php
 namespace FINANCE;
 
+use FINANCE\Plugins\PluginInterface;
+
 class Application
 {
 
@@ -23,6 +25,11 @@ class Application
         } else {
             $this->serviceContainer->add($name, $service);
         }
+    }
+
+    public function plugin(PluginInterface $plugin)
+    {
+        $plugin->register($this->serviceContainer);
     }
 }
 
