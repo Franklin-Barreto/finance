@@ -3,6 +3,7 @@ declare(strict_types = 1);
 namespace FINANCE;
 
 use FINANCE\Plugins\PluginInterface;
+use Psr\Http\Message\RequestInterface;
 
 class Application
 {
@@ -38,6 +39,25 @@ class Application
         $routing = $this->service('routing');
         $routing->get($name, $path, $action);
         return $this;
+    }
+
+    public function start()
+    {
+        $route = $this->service('route');
+
+        /** @var ServerRequestInterface $request */
+        $request = $this->service(RequestInterface::class);
+
+        if (! $route) {
+            die('Page not found');
+        }
+
+        foreach ($route->attributes as $key => $value) {
+            $request = $request->withAttribute($key, $value);
+        }
+
+        $callable = $route->handler;
+        $callable($request);
     }
 }
 
