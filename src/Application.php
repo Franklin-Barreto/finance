@@ -1,4 +1,5 @@
 <?php
+declare(strict_types = 1);
 namespace FINANCE;
 
 use FINANCE\Plugins\PluginInterface;
@@ -30,6 +31,13 @@ class Application
     public function plugin(PluginInterface $plugin): void
     {
         $plugin->register($this->serviceContainer);
+    }
+
+    public function get($path, $action, $name = null): Application
+    {
+        $routing = $this->service('routing');
+        $routing->get($name, $path, $action);
+        return $this;
     }
 }
 
