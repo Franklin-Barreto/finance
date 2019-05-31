@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 use FINANCE\ServiceContainerInterface;
 use Xtreamwayz\Pimple\Container;
+use Psr\Container\ContainerInterface;
 
 class ServiceContainer implements ServiceContainerInterface
 {
@@ -24,7 +25,7 @@ class ServiceContainer implements ServiceContainerInterface
         $this->container[$name] = $this->container->factory($callable);
     }
 
-    public function get(string $name): Container
+    public function get(string $name): ContainerInterface
     {
         return $this->container->get($name);
     }
