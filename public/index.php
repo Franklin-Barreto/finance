@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use FINANCE\Plugins\ViewPlugin;
 use FINANCE\View\ViewRenderer;
 use FINANCE\Plugins\DbPlugin;
+use FINANCE\Models\CategoryCost;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -39,7 +40,8 @@ $app->plugin(new DbPlugin());
 
 $app->get('/category-costs', function () use ($app) {
     $view = $app->service('view.renderer');
-    echo $view->render('category-costs/list.html.twig')
+    $categories = (new CategoryCost())->all();
+    echo $view->render('category-costs/list.html.twig',['categories'=>$categories])
         ->getBody();
 });
 
